@@ -1,65 +1,111 @@
+import { createClient } from "@/utils/supabase/server";
+import { cookies } from "next/headers";
 import Image from "next/image";
 
-export default function Home() {
+export default async function Home() {
+  const cookieStore = await cookies();
+  const supabase = createClient(cookieStore);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="bg-gray-300 pb-6">
+      {/* NAVBAR SECTION */}
+      <nav className="text-black flex flex-row w-full items-center px-44 bg-white">
+        <div className="w-3/12 flex flex-row items-center justify-start">
+          <Image src="/logo.jpg" alt="DOCTOR AI LOGO" width={100} height={10} />
+          <h1 className="font-bold text-xl">DOCTOR AI</h1>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div className="w-4/12 flex justify-end">
+          <ul className="flex flex-row items-center">
+            <li>
+              <a href="#" className="hover:underline">
+                Quienes somos
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                className="flex flex-row items-center mx-10 hover:underline"
+              >
+                Servicios{" "}
+                <Image
+                  src="/black_dropdown.png"
+                  alt="BLACK DROPDOWN"
+                  width={20}
+                  height={10}
+                />
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:underline">
+                Recursos
+              </a>
+            </li>
+          </ul>
         </div>
-      </main>
-    </div>
+        <div className="w-5/12 flex justify-end">
+          <ul className="flex flex-row items-center">
+            <li>
+              <a
+                href="/auth/login"
+                className="mr-5 border-2 border-black px-5 py-2 rounded-2xl hover:bg-black hover:text-white"
+              >
+                Iniciar Sesion
+              </a>
+            </li>
+            <li>
+              <a
+                href="/auth/signin"
+                className="bg-black text-white px-5 py-2 rounded-xl border-2 border-black hover:bg-gray-300 hover:text-black hover:border-white"
+              >
+                Registrarme
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      {/* HERO SECTION */}
+      <section className="text-black w-full flex flex-row px-40 py-20 bg-white">
+        <div className="w-1/2 flex flex-col justify-start my-auto">
+          <h1 className="text-5xl font-extrabold">Tu mano derecha en la gestion medica</h1>
+          <p className="mt-4">Registra tus consultas sin esfuerzo, genera reportes y obtenga respuestas seguras con nuestros modelos de IA</p>
+          <a href="/auth/signin" className="mt-7 bg-black text-white font-bold rounded-2xl w-48 text-center py-3 hover:bg-gray-400">Registrarse gratis</a>
+        </div>
+        <div className="w-1/2">
+          <Image src="/hero.webp" alt="HERO IMAGE" width={500} height={500} />
+        </div>
+      </section>
+      {/* FOOTER SECTION */}
+      <footer className="text-black bg-gray-300 w-full flex flex-row px-20 pt-5">
+        <div className="w-1/4 pr-9">
+          <h1 className="font-extrabold text-2xl">DOCTOR AI</h1>
+          <h2 className="mt-1 mb-4">Ahorre tiempo y esfuerzos en reconocer diferentes tipos de imagenes radeologicas</h2>
+          <div className="flex flex-row items-center">
+            <Image src="/facebook.png" alt="FACEBOOK LOGO" width={40} height={20} />
+            <Image src="/instagram.png" alt="INSTAGRAM LOGO" className="mx-4" width={40} height={20} />
+            <Image src="/tiktok.png" alt="TIKTOK LOGO" width={40} height={20} />
+            <Image src="/x.png" alt="X LOGO" width={40} height={20} className="ml-4" />
+          </div>
+        </div>
+        <div className="w-1/4 flex flex-col">
+          <h1 className="font-extrabold text-xl mb-2">Empresa</h1>
+          <a href="">Politica de privacidad</a>
+          <a href="">Terminos y Condiciones</a>
+        </div>
+        <div className="w-1/4 flex flex-col">
+          <h1 className="font-extrabold text-xl mb-2">Casos de uso</h1>
+          <a href="">Para Medicos</a>
+          <a href="">Para Psiquiatras</a>
+          <a href="">Para Psicoterapeutas</a>
+          <a href="">Para Nutricionistas y Dietistas</a>
+        </div>
+        <div className="w-1/4 flex flex-col">
+          <h1 className="font-extrabold text-xl mb-2">Soporte</h1>
+          <a href="">Preguntas frecuentes</a>
+          <a href="">Contactenos</a>
+          <a href="">Programe una demostracion</a>
+        </div>
+      </footer>
+      <h1 className="bg-gray-300 text-center mt-10">Todos los derechos reservados a <a href="https://github.com/fernandovmedina" className="hover:underline font-bold">Fernando Vazquez (Full-Stack Developer)</a></h1>
+    </main>
   );
 }
