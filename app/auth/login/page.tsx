@@ -1,11 +1,39 @@
-import Image from "next/image";
+"use client";
 
-export default async function Login() {
+import Image from "next/image";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
+
+export default function Login() {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const supabase = createClient();
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+
+    if (error) {
+      alert(error.message);
+    }
+
+    if (!error) {
+      router.replace("/root/home");
+    }
+  };
+
   return (
     <main className="bg-white flex flex-col items-center justify-center">
       {/* NAVBAR SECTION */}
       <nav className="text-black flex flex-row w-full items-center px-44">
-        <a href="/" className="w-3/12 flex flex-row items-center justify-start">
+        <a href="/auth/welcome" className="w-3/12 flex flex-row items-center justify-start">
           <Image src="/logo.jpg" alt="DOCTOR AI LOGO" width={100} height={10} />
           <h1 className="font-bold text-xl">DOCTOR AI</h1>
         </a>
@@ -83,7 +111,7 @@ export default async function Login() {
             Sistema de Diagnóstico con Deep Learning
           </p>
         </div>
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={handleSubmit}>
           <div>
             <label
               htmlFor="email"
@@ -98,6 +126,7 @@ export default async function Login() {
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
               placeholder="doctor@hospital.com"
               required
+              onChange={(e) => setEmail(String(e.target.value))}
             />
           </div>
           <div>
@@ -114,6 +143,7 @@ export default async function Login() {
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
               placeholder="••••••••"
               required
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <button

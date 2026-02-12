@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import { createClient } from '@/utils/supabase/client'
+import { useRouter } from 'next/navigation'
 
 export default function Home() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
@@ -68,6 +70,18 @@ export default function Home() {
     setResult(null)
   }
 
+  const supabase = createClient();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+
+    if (!error) {
+      router.replace("/auth/login");
+      router.refresh();
+    }
+  };
+
   return (
     <main className="min-h-screen bg-white">
       {/* Header */}
@@ -81,7 +95,7 @@ export default function Home() {
                 <p className="text-sm text-gray-600">Sistema de análisis de rayos X</p>
               </div>
             </div>
-            <button className="text-gray-600 hover:text-gray-900 font-medium text-sm">
+            <button onClick={() => handleLogout()} className="text-gray-600 hover:text-gray-900 font-medium text-sm hover:cursor-pointer">
               Cerrar sesión
             </button>
           </div>

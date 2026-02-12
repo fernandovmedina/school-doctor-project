@@ -5,7 +5,7 @@ export default async function Register() {
     <main className="min-h-screen bg-white flex flex-col items-center justify-center">
       {/* NAVBAR SECTION */}
       <nav className="text-black flex flex-row w-full items-center px-44 bg-white">
-        <a href="/" className="w-3/12 flex flex-row items-center justify-start">
+        <a href="/auth/welcome" className="w-3/12 flex flex-row items-center justify-start">
           <Image src="/logo.jpg" alt="DOCTOR AI LOGO" width={100} height={10} />
           <h1 className="font-bold text-xl">DOCTOR AI</h1>
         </a>
